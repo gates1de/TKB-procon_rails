@@ -1,6 +1,12 @@
 Rails.application.routes.draw do
   devise_for :users
   mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
+
+	resources :lessons, only: %i(show questions) do
+		collection do
+			get ':id/questions', to: 'lessons#questions', as: 'questions'
+		end
+	end
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
@@ -55,4 +61,11 @@ Rails.application.routes.draw do
   #     # (app/controllers/admin/products_controller.rb)
   #     resources :products
   #   end
+  namespace :teacher do
+    root 'top#index'
+  end
+
+  namespace :student do
+    root 'top#index'
+  end
 end

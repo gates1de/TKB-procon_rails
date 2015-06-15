@@ -12,12 +12,12 @@ NULLCMD = :
 #### Start of system configuration section. ####
 
 srcdir = .
-topdir = /home/oke/.rbenv/versions/2.2.2/include/ruby-2.2.0
+topdir = /Users/gates1de/.rbenv/versions/2.2.2/include/ruby-2.2.0
 hdrdir = $(topdir)
-arch_hdrdir = /home/oke/.rbenv/versions/2.2.2/include/ruby-2.2.0/x86_64-linux
+arch_hdrdir = /Users/gates1de/.rbenv/versions/2.2.2/include/ruby-2.2.0/x86_64-darwin14
 PATH_SEPARATOR = :
 VPATH = $(srcdir):$(arch_hdrdir)/ruby:$(hdrdir)/ruby
-prefix = $(DESTDIR)/home/oke/.rbenv/versions/2.2.2
+prefix = $(DESTDIR)/Users/gates1de/.rbenv/versions/2.2.2
 rubysitearchprefix = $(rubylibprefix)/$(sitearch)
 rubyarchprefix = $(rubylibprefix)/$(arch)
 rubylibprefix = $(libdir)/$(RUBY_BASE_NAME)
@@ -31,8 +31,8 @@ rubyhdrdir = $(includedir)/$(RUBY_VERSION_NAME)
 vendorarchdir = $(vendorlibdir)/$(sitearch)
 vendorlibdir = $(vendordir)/$(ruby_version)
 vendordir = $(rubylibprefix)/vendor_ruby
-sitearchdir = $(DESTDIR)./.gem.20150527-20895-vp79c8
-sitelibdir = $(DESTDIR)./.gem.20150527-20895-vp79c8
+sitearchdir = $(DESTDIR)./.gem.20150604-63958-1ztvl5
+sitelibdir = $(DESTDIR)./.gem.20150604-63958-1ztvl5
 sitedir = $(rubylibprefix)/site_ruby
 rubyarchdir = $(rubylibdir)/$(arch)
 rubylibdir = $(rubylibprefix)/$(ruby_version)
@@ -63,12 +63,12 @@ bindir = $(exec_prefix)/bin
 archdir = $(rubyarchdir)
 
 
-CC = gcc
-CXX = g++
+CC = clang
+CXX = clang++
 LIBRUBY = $(LIBRUBY_A)
 LIBRUBY_A = lib$(RUBY_SO_NAME)-static.a
-LIBRUBYARG_SHARED = -Wl,-R$(libdir) -L$(libdir) 
-LIBRUBYARG_STATIC = -Wl,-R$(libdir) -L$(libdir) -l$(RUBY_SO_NAME)-static
+LIBRUBYARG_SHARED = 
+LIBRUBYARG_STATIC = -l$(RUBY_SO_NAME)-static -framework CoreFoundation
 empty =
 OUTFLAG = -o $(empty)
 COUTFLAG = -o $(empty)
@@ -77,19 +77,19 @@ RUBY_EXTCONF_H =
 cflags   =  $(optflags) $(debugflags) $(warnflags)
 optflags = -O3 -fno-fast-math
 debugflags = -ggdb3
-warnflags = -Wall -Wextra -Wno-unused-parameter -Wno-parentheses -Wno-long-long -Wno-missing-field-initializers -Wunused-variable -Wpointer-arith -Wwrite-strings -Wdeclaration-after-statement -Wimplicit-function-declaration -Wdeprecated-declarations -Wno-packed-bitfield-compat
-CCDLFLAGS = -fPIC
-CFLAGS   = $(CCDLFLAGS) $(cflags) -Wall -funroll-loops $(ARCH_FLAG)
-INCFLAGS = -I. -I$(arch_hdrdir) -I$(hdrdir)/ruby/backward -I$(hdrdir) -I$(srcdir) -I/usr/include/mysql
+warnflags = -Wall -Wextra -Wno-unused-parameter -Wno-parentheses -Wno-long-long -Wno-missing-field-initializers -Wunused-variable -Wpointer-arith -Wwrite-strings -Wdeclaration-after-statement -Wshorten-64-to-32 -Wimplicit-function-declaration -Wdivision-by-zero -Wdeprecated-declarations -Wextra-tokens
+CCDLFLAGS = -fno-common
+CFLAGS   = $(CCDLFLAGS)  -O3 -Wno-error=shorten-64-to-32  -pipe -Wall -funroll-loops $(ARCH_FLAG)
+INCFLAGS = -I. -I$(arch_hdrdir) -I$(hdrdir)/ruby/backward -I$(hdrdir) -I$(srcdir) -I/usr/local/Cellar/mysql/5.6.24/include/mysql
 DEFS     = 
-CPPFLAGS = -DHAVE_RUBY_THREAD_H -DHAVE_RB_THREAD_CALL_WITHOUT_GVL -DHAVE_RB_WAIT_FOR_SINGLE_FD -DHAVE_RB_HASH_DUP -DHAVE_RB_INTERN3 -DHAVE_MYSQL_H -DHAVE_ERRMSG_H -DHAVE_MYSQLD_ERROR_H -I/home/oke/.rbenv/versions/2.2.2/include  $(DEFS) $(cppflags)
+CPPFLAGS = -DHAVE_RUBY_THREAD_H -DHAVE_RB_THREAD_CALL_WITHOUT_GVL -DHAVE_RB_WAIT_FOR_SINGLE_FD -DHAVE_RB_HASH_DUP -DHAVE_RB_INTERN3 -DHAVE_MYSQL_H -DHAVE_ERRMSG_H -DHAVE_MYSQLD_ERROR_H -I/Users/gates1de/.rbenv/versions/2.2.2/include  -D_XOPEN_SOURCE -D_DARWIN_C_SOURCE -D_DARWIN_UNLIMITED_SELECT -D_REENTRANT $(DEFS) $(cppflags)
 CXXFLAGS = $(CCDLFLAGS) $(cxxflags) $(ARCH_FLAG)
-ldflags  = -L. -L/home/oke/.rbenv/versions/2.2.2/lib  -fstack-protector -rdynamic -Wl,-export-dynamic
-dldflags =  
+ldflags  = -L. -L/Users/gates1de/.rbenv/versions/2.2.2/lib  -fstack-protector -Wl,-rpath,/usr/local/Cellar/mysql/5.6.24/lib
+dldflags = -Wl,-undefined,dynamic_lookup -Wl,-multiply_defined,suppress 
 ARCH_FLAG = 
 DLDFLAGS = $(ldflags) $(dldflags) $(ARCH_FLAG)
-LDSHARED = $(CC) -shared
-LDSHAREDXX = $(CXX) -shared
+LDSHARED = $(CC) -dynamic -bundle
+LDSHAREDXX = $(CXX) -dynamic -bundle
 AR = ar
 EXEEXT = 
 
@@ -100,7 +100,7 @@ RUBY_VERSION_NAME = $(RUBY_BASE_NAME)-$(ruby_version)
 RUBYW_BASE_NAME = rubyw
 RUBY_BASE_NAME = ruby
 
-arch = x86_64-linux
+arch = x86_64-darwin14
 sitearch = $(arch)
 ruby_version = 2.2.0
 ruby = $(bindir)/$(RUBY_BASE_NAME)
@@ -109,8 +109,8 @@ ruby_headers = $(hdrdir)/ruby.h $(hdrdir)/ruby/ruby.h $(hdrdir)/ruby/defines.h $
 
 RM = rm -f
 RM_RF = $(RUBY) -run -e rm -- -rf
-RMDIRS = rmdir --ignore-fail-on-non-empty -p
-MAKEDIRS = /bin/mkdir -p
+RMDIRS = rmdir -p
+MAKEDIRS = mkdir -p
 INSTALL = /usr/bin/install -c
 INSTALL_PROG = $(INSTALL) -m 0755
 INSTALL_DATA = $(INSTALL) -m 644
@@ -121,8 +121,8 @@ TOUCH = exit >
 
 preload = 
 
-libpath = /usr/lib/x86_64-linux-gnu . $(libdir)
-LIBPATH =  -L/usr/lib/x86_64-linux-gnu -Wl,-R/usr/lib/x86_64-linux-gnu -L. -L$(libdir) -Wl,-R$(libdir)
+libpath = . $(libdir)
+LIBPATH =  -L. -L$(libdir)
 DEFFILE = 
 
 CLEANFILES = mkmf.log
@@ -133,15 +133,15 @@ extout =
 extout_prefix = 
 target_prefix = /mysql2
 LOCAL_LIBS = 
-LIBS =  -L/usr/lib/x86_64-linux-gnu -lmysqlclient -lpthread -lz -lm -ldl  -lpthread -ldl -lcrypt -lm   -lc
-ORIG_SRCS = result.c mysql2_ext.c client.c infile.c
+LIBS =  -L/usr/local/Cellar/mysql/5.6.24/lib  -lmysqlclient  -lssl -lcrypto  -lpthread -ldl -lobjc 
+ORIG_SRCS = client.c infile.c mysql2_ext.c result.c
 SRCS = $(ORIG_SRCS) 
-OBJS = result.o mysql2_ext.o client.o infile.o
-HDRS = $(srcdir)/mysql2_ext.h $(srcdir)/result.h $(srcdir)/client.h $(srcdir)/mysql_enc_name_to_ruby.h $(srcdir)/infile.h $(srcdir)/wait_for_single_fd.h $(srcdir)/mysql_enc_to_ruby.h
+OBJS = client.o infile.o mysql2_ext.o result.o
+HDRS = $(srcdir)/client.h $(srcdir)/infile.h $(srcdir)/mysql2_ext.h $(srcdir)/mysql_enc_name_to_ruby.h $(srcdir)/mysql_enc_to_ruby.h $(srcdir)/result.h $(srcdir)/wait_for_single_fd.h
 TARGET = mysql2
 TARGET_NAME = mysql2
 TARGET_ENTRY = Init_$(TARGET_NAME)
-DLLIB = $(TARGET).so
+DLLIB = $(TARGET).bundle
 EXTSTATIC = 
 STATIC_LIB = 
 
@@ -154,7 +154,7 @@ HDRDIR        = $(rubyhdrdir)/ruby$(target_prefix)
 ARCHHDRDIR    = $(rubyhdrdir)/$(arch)/ruby$(target_prefix)
 
 TARGET_SO     = $(DLLIB)
-CLEANLIBS     = $(TARGET).so 
+CLEANLIBS     = $(TARGET).bundle 
 CLEANOBJS     = *.o  *.bak
 
 all:    $(DLLIB)
@@ -253,6 +253,7 @@ $(DLLIB): $(OBJS) Makefile
 	$(ECHO) linking shared-object mysql2/$(DLLIB)
 	-$(Q)$(RM) $(@)
 	$(Q) $(LDSHARED) -o $@ $(OBJS) $(LIBPATH) $(DLDFLAGS) $(LOCAL_LIBS) $(LIBS)
+	$(Q) $(POSTLINK)
 
 
 

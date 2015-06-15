@@ -12,12 +12,12 @@ NULLCMD = :
 #### Start of system configuration section. ####
 
 srcdir = .
-topdir = /home/oke/.rbenv/versions/2.2.2/include/ruby-2.2.0
+topdir = /Users/gates1de/.rbenv/versions/2.2.2/include/ruby-2.2.0
 hdrdir = $(topdir)
-arch_hdrdir = /home/oke/.rbenv/versions/2.2.2/include/ruby-2.2.0/x86_64-linux
+arch_hdrdir = /Users/gates1de/.rbenv/versions/2.2.2/include/ruby-2.2.0/x86_64-darwin14
 PATH_SEPARATOR = :
 VPATH = $(srcdir):$(arch_hdrdir)/ruby:$(hdrdir)/ruby
-prefix = $(DESTDIR)/home/oke/.rbenv/versions/2.2.2
+prefix = $(DESTDIR)/Users/gates1de/.rbenv/versions/2.2.2
 rubysitearchprefix = $(rubylibprefix)/$(sitearch)
 rubyarchprefix = $(rubylibprefix)/$(arch)
 rubylibprefix = $(libdir)/$(RUBY_BASE_NAME)
@@ -31,8 +31,8 @@ rubyhdrdir = $(includedir)/$(RUBY_VERSION_NAME)
 vendorarchdir = $(vendorlibdir)/$(sitearch)
 vendorlibdir = $(vendordir)/$(ruby_version)
 vendordir = $(rubylibprefix)/vendor_ruby
-sitearchdir = $(DESTDIR)./.gem.20150527-20895-yq3f9q
-sitelibdir = $(DESTDIR)./.gem.20150527-20895-yq3f9q
+sitearchdir = $(DESTDIR)./.gem.20150604-89391-18h6c3o
+sitelibdir = $(DESTDIR)./.gem.20150604-89391-18h6c3o
 sitedir = $(rubylibprefix)/site_ruby
 rubyarchdir = $(rubylibdir)/$(arch)
 rubylibdir = $(rubylibprefix)/$(ruby_version)
@@ -63,12 +63,12 @@ bindir = $(exec_prefix)/bin
 archdir = $(rubyarchdir)
 
 
-CC = gcc
-CXX = g++
+CC = clang
+CXX = clang++
 LIBRUBY = $(LIBRUBY_A)
 LIBRUBY_A = lib$(RUBY_SO_NAME)-static.a
-LIBRUBYARG_SHARED = -Wl,-R$(libdir) -L$(libdir) 
-LIBRUBYARG_STATIC = -Wl,-R$(libdir) -L$(libdir) -l$(RUBY_SO_NAME)-static
+LIBRUBYARG_SHARED = 
+LIBRUBYARG_STATIC = -l$(RUBY_SO_NAME)-static -framework CoreFoundation
 empty =
 OUTFLAG = -o $(empty)
 COUTFLAG = -o $(empty)
@@ -77,19 +77,19 @@ RUBY_EXTCONF_H =
 cflags   =  $(optflags) $(debugflags) $(warnflags)
 optflags = -O3 -fno-fast-math
 debugflags = -ggdb3
-warnflags = -Wall -Wextra -Wno-unused-parameter -Wno-parentheses -Wno-long-long -Wno-missing-field-initializers -Wunused-variable -Wpointer-arith -Wwrite-strings   -Wdeprecated-declarations -Wno-packed-bitfield-compat
-CCDLFLAGS = -fPIC
-CFLAGS   = $(CCDLFLAGS) $(cflags) $(ARCH_FLAG)
-INCFLAGS = -I. -I/home/oke/rails/Procs/vendor/bundle/ruby/2.2.0/gems/libv8-3.16.14.7-x86_64-linux/vendor/v8/include -I$(arch_hdrdir) -I$(hdrdir)/ruby/backward -I$(hdrdir) -I$(srcdir)
+warnflags = -Wall -Wextra -Wno-unused-parameter -Wno-parentheses -Wno-long-long -Wno-missing-field-initializers -Wunused-variable -Wpointer-arith -Wwrite-strings  -Wshorten-64-to-32  -Wdivision-by-zero -Wdeprecated-declarations -Wextra-tokens
+CCDLFLAGS = -fno-common
+CFLAGS   = $(CCDLFLAGS)  -O3 -Wno-error=shorten-64-to-32  -pipe $(ARCH_FLAG)
+INCFLAGS = -I. -I/Users/gates1de/develop/RDProject/PROCS/TKB-procon_rails/vendor/bundle/ruby/2.2.0/gems/libv8-3.16.14.7-x86_64-darwin-14/vendor/v8/include -I$(arch_hdrdir) -I$(hdrdir)/ruby/backward -I$(hdrdir) -I$(srcdir)
 DEFS     = 
-CPPFLAGS =  -I/home/oke/.rbenv/versions/2.2.2/include  $(DEFS) $(cppflags) -Wall -g -rdynamic
+CPPFLAGS =  -I/Users/gates1de/.rbenv/versions/2.2.2/include  -D_XOPEN_SOURCE -D_DARWIN_C_SOURCE -D_DARWIN_UNLIMITED_SELECT -D_REENTRANT $(DEFS) $(cppflags) -Wall -g -rdynamic
 CXXFLAGS = $(CCDLFLAGS) $(cxxflags) $(ARCH_FLAG)
-ldflags  = /home/oke/rails/Procs/vendor/bundle/ruby/2.2.0/gems/libv8-3.16.14.7-x86_64-linux/vendor/v8/out/x64.release/obj.target/tools/gyp/libv8_base.a /home/oke/rails/Procs/vendor/bundle/ruby/2.2.0/gems/libv8-3.16.14.7-x86_64-linux/vendor/v8/out/x64.release/obj.target/tools/gyp/libv8_snapshot.a -L. -L/home/oke/.rbenv/versions/2.2.2/lib  -fstack-protector -rdynamic -Wl,-export-dynamic
-dldflags =  
+ldflags  = /Users/gates1de/develop/RDProject/PROCS/TKB-procon_rails/vendor/bundle/ruby/2.2.0/gems/libv8-3.16.14.7-x86_64-darwin-14/vendor/v8/out/x64.release/libv8_base.a /Users/gates1de/develop/RDProject/PROCS/TKB-procon_rails/vendor/bundle/ruby/2.2.0/gems/libv8-3.16.14.7-x86_64-darwin-14/vendor/v8/out/x64.release/libv8_snapshot.a -L. -L/Users/gates1de/.rbenv/versions/2.2.2/lib  -fstack-protector
+dldflags = -Wl,-undefined,dynamic_lookup -Wl,-multiply_defined,suppress 
 ARCH_FLAG = 
 DLDFLAGS = $(ldflags) $(dldflags) $(ARCH_FLAG)
-LDSHARED = $(CXX) -shared
-LDSHAREDXX = $(CXX) -shared
+LDSHARED = $(CC) -dynamic -bundle
+LDSHAREDXX = $(CXX) -dynamic -bundle
 AR = ar
 EXEEXT = 
 
@@ -100,7 +100,7 @@ RUBY_VERSION_NAME = $(RUBY_BASE_NAME)-$(ruby_version)
 RUBYW_BASE_NAME = rubyw
 RUBY_BASE_NAME = ruby
 
-arch = x86_64-linux
+arch = x86_64-darwin14
 sitearch = $(arch)
 ruby_version = 2.2.0
 ruby = $(bindir)/$(RUBY_BASE_NAME)
@@ -109,8 +109,8 @@ ruby_headers = $(hdrdir)/ruby.h $(hdrdir)/ruby/ruby.h $(hdrdir)/ruby/defines.h $
 
 RM = rm -f
 RM_RF = $(RUBY) -run -e rm -- -rf
-RMDIRS = rmdir --ignore-fail-on-non-empty -p
-MAKEDIRS = /bin/mkdir -p
+RMDIRS = rmdir -p
+MAKEDIRS = mkdir -p
 INSTALL = /usr/bin/install -c
 INSTALL_PROG = $(INSTALL) -m 0755
 INSTALL_DATA = $(INSTALL) -m 644
@@ -122,7 +122,7 @@ TOUCH = exit >
 preload = 
 
 libpath = . $(libdir)
-LIBPATH =  -L. -L$(libdir) -Wl,-R$(libdir)
+LIBPATH =  -L. -L$(libdir)
 DEFFILE = 
 
 CLEANFILES = mkmf.log
@@ -133,15 +133,15 @@ extout =
 extout_prefix = 
 target_prefix = /v8
 LOCAL_LIBS = 
-LIBS =  -lpthread  -lpthread -ldl -lcrypt -lm   -lc
-ORIG_SRCS = script.cc rr.cc stack.cc backref.cc v8.cc object.cc handles.cc date.cc signature.cc accessor.cc external.cc value.cc constants.cc array.cc trycatch.cc function.cc string.cc init.cc locker.cc template.cc exception.cc constraints.cc primitive.cc gc.cc context.cc heap.cc invocation.cc message.cc
+LIBS =  -lobjc -lpthread  -lpthread -ldl -lobjc 
+ORIG_SRCS = accessor.cc array.cc backref.cc constants.cc constraints.cc context.cc date.cc exception.cc external.cc function.cc gc.cc handles.cc heap.cc init.cc invocation.cc locker.cc message.cc object.cc primitive.cc rr.cc script.cc signature.cc stack.cc string.cc template.cc trycatch.cc v8.cc value.cc
 SRCS = $(ORIG_SRCS) 
-OBJS = script.o rr.o stack.o backref.o v8.o object.o handles.o date.o signature.o accessor.o external.o value.o constants.o array.o trycatch.o function.o string.o init.o locker.o template.o exception.o constraints.o primitive.o gc.o context.o heap.o invocation.o message.o
+OBJS = accessor.o array.o backref.o constants.o constraints.o context.o date.o exception.o external.o function.o gc.o handles.o heap.o init.o invocation.o locker.o message.o object.o primitive.o rr.o script.o signature.o stack.o string.o template.o trycatch.o v8.o value.o
 HDRS = $(srcdir)/rr.h
 TARGET = init
 TARGET_NAME = init
 TARGET_ENTRY = Init_$(TARGET_NAME)
-DLLIB = $(TARGET).so
+DLLIB = $(TARGET).bundle
 EXTSTATIC = 
 STATIC_LIB = 
 
@@ -154,7 +154,7 @@ HDRDIR        = $(rubyhdrdir)/ruby$(target_prefix)
 ARCHHDRDIR    = $(rubyhdrdir)/$(arch)/ruby$(target_prefix)
 
 TARGET_SO     = $(DLLIB)
-CLEANLIBS     = $(TARGET).so 
+CLEANLIBS     = $(TARGET).bundle 
 CLEANOBJS     = *.o  *.bak
 
 all:    $(DLLIB)
@@ -253,6 +253,7 @@ $(DLLIB): $(OBJS) Makefile
 	$(ECHO) linking shared-object v8/$(DLLIB)
 	-$(Q)$(RM) $(@)
 	$(Q) $(LDSHAREDXX) -o $@ $(OBJS) $(LIBPATH) $(DLDFLAGS) $(LOCAL_LIBS) $(LIBS)
+	$(Q) $(POSTLINK)
 
 
 
